@@ -12,7 +12,7 @@ const Admin = ({navigation}) => {
   const loaduser = async () => {
     await axios({
       method: 'GET',
-      url: 'http://192.168.6.227:5000/user/',
+      url: 'https://immense-garden-86776.herokuapp.com/user',
     })
       .then(function (response) {
 
@@ -26,7 +26,7 @@ const Admin = ({navigation}) => {
 
   useEffect(() => {
     loaduser();
-  }, [user]);
+  }, []);
 
   const checkAction=()=>{
     return navigation.navigate('Scanner');
@@ -36,14 +36,13 @@ const Admin = ({navigation}) => {
   //delete user
 
   const deleteUser=async(id)=>{
-    console.log(id)
     await axios({
       method: 'DELETE',
-      url: `http://192.168.6.227:5000/user/${id}`,
+      url: `https://immense-garden-86776.herokuapp.com/user/${id}`,
       headers:{"Content-Type":"applications/json"}
     })
       .then(function (response) {
-        console.log(response)
+        loaduser()
       })
       .catch(function (error) {
         console.log(error);
@@ -69,17 +68,17 @@ const Admin = ({navigation}) => {
               
             }}>
             <View style={{paddingLeft: 10, paddingTop: 5}}>
-              <Text style={{fontSize: 20, color: '#2f3542'}}>
+              <Text style={{fontSize: 20, color: '#353b48'}}>
                 {element.firstname} {element.lastname}
               </Text>
-              <Text style={{fontSize: 20, color: '#2f3542'}}>
+              <Text style={{fontSize: 20, color: '#353b48'}}>
                 {element.username}
               </Text>
             </View>
 
             <View style={{paddingTop: 20, paddingRight: 8 ,flexDirection:'row'}}>
-            <Button title="delete" onPress={()=>deleteUser(element._id)} buttonStyle={{marginRight:10,backgroundColor:'#fab1a0'}}/>
-              <Button title="action" onPress={()=>checkAction()} buttonStyle={{backgroundColor:'#55efc4'}}/>
+            <Button title="delete" onPress={()=>deleteUser(element._id)} buttonStyle={{marginRight:10,backgroundColor:'#f78fb3'}}/>
+              <Button title="action" onPress={()=>checkAction()} buttonStyle={{backgroundColor:'#78e08f'}}/>
             </View>
           </View>
         </View>
@@ -96,11 +95,11 @@ const Admin = ({navigation}) => {
           textAlign: 'center',
           fontSize: 30,
           fontWeight:'bold',
-          color: 'white',
+          color: '#353b48',
           marginTop: 30,
           paddingBottom:20
         }}>
-        Beams Users
+        Beams Users Dashboard
       </Text>
 
       <ScrollView>{list()}</ScrollView>

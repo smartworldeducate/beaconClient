@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
 import Scanner from './src/compenents/scanner';
 import Splash from './src/compenents/defalutScreen';
+import Signup from './src/compenents/signUp';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const App = () => {
           
         />
         <Stack.Screen name="Login" component={Login} screenOptions={{headerShown:false}}/>
+        <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Admin" component={Admin} />
         <Stack.Screen name="Scanner" component={Scanner} />
         <Stack.Screen name="Splash" component={Splash} />

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {styles} from './styles';
 import {
+  TouchableOpacity,
   Keyboard,
   KeyboardAvoidingView,
   Text,
@@ -16,10 +17,11 @@ const Login = ({navigation}) => {
   const [username, setUsername] = useState({username: '', error: ''});
   const [password, setPassword] = useState({password: '', error: ''});
 
+
   const loginUser = () => {
     axios({
       method: 'POST',
-      url: 'http://192.168.6.227:5000/auth/login',
+      url: 'https://immense-garden-86776.herokuapp.com/auth/login',
       data: {username: username.username, password: password.password},
       headers: {
         'Content-Type': 'application/json',
@@ -38,9 +40,16 @@ const Login = ({navigation}) => {
       });
   };
 
+  
+
   const onLoginPress = async () => {
     loginUser();
   };
+
+  const handleRegister=()=>{
+    return navigation.navigate('Signup');
+
+  }
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -70,6 +79,11 @@ const Login = ({navigation}) => {
               onPress={() => onLoginPress()}
               title="Login"
             />
+            <TouchableOpacity
+                onPress={()=>handleRegister()}
+                style={styles.button}>
+                <Text style={styles.text}>Register</Text>
+              </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>

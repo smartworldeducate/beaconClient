@@ -103,14 +103,9 @@ class Scanner extends Component {
                 this.scanner = node;
               }}
               onRead={this.onSuccess}
-              topContent={
-                <Text>
-                  Go to <Text>wikipedia.org/wiki/QR_code</Text> on your computer
-                  and scan the QR code to test.
-                </Text>
-              }
+             
               bottomContent={
-                <View>
+                <View style={{paddingTop:30}}>
                   <TouchableOpacity onPress={() => this.scanner.reactivate()}>
                     <Text>OK. Got it!</Text>
                   </TouchableOpacity>
