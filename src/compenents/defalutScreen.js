@@ -1,20 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {styles} from './styles';
-import {
-  View,
-  Image,
-  ImageBackground,
-  SafeAreaView,
-} from 'react-native';
+import {View, Image, ImageBackground, SafeAreaView} from 'react-native';
 
 const Splash = ({navigation}) => {
   const [timepass, setTimepss] = useState(false);
 
-  setTimeout(() => {
-    setTimepss(true);
-  }, 5000);
-
- 
+  useEffect(()=>{
+    setTimeout(() => {
+      setTimepss(true);
+    }, 3000);
+  },[timepass])
 
   if (!timepass) {
     return (

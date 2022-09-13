@@ -7,6 +7,7 @@ import { StatusBar } from 'react-native';
 import Scanner from './src/compenents/scanner';
 import Splash from './src/compenents/defalutScreen';
 import Signup from './src/compenents/signUp';
+import Card from './src/compenents/Card';
 
 const Stack = createStackNavigator();
 
@@ -27,11 +28,13 @@ const App = () => {
           }}
           
         />
-        <Stack.Screen name="Login" component={Login} screenOptions={{headerShown:false}}/>
+        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Admin" component={Admin} />
-        <Stack.Screen name="Scanner" component={Scanner} />
-        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Scanner" component={Scanner}   />
+        <Stack.Screen name="Card" component={Card} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

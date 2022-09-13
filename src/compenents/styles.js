@@ -1,4 +1,4 @@
-import { colors } from "react-native-elements";
+
 
 const React = require("react-native");
 
@@ -48,12 +48,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'transparent',
   },
- parant:{
-  width:400,
-  height:750,
-  backgroundColor:'#ff6b81',
-
- },
+ 
  text:{
   fontSize:30,
   fontWeight:'bold',
@@ -64,6 +59,29 @@ export const styles = StyleSheet.create({
   padding:30
 
  },
+ sliderContainer: {
+  height: 200,
+  width: '90%',
+  marginTop: 10,
+  justifyContent: 'center',
+  alignSelf: 'center',
+  borderRadius: 8,
+},
+
+wrapper: {},
+
+slide: {
+  flex: 1,
+  justifyContent: 'center',
+  backgroundColor: 'transparent',
+  borderRadius: 8,
+},
+sliderImage: {
+  height: '100%',
+  width: '100%',
+  alignSelf: 'center',
+  borderRadius: 8,
+},
 
 
 

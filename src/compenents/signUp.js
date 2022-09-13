@@ -1,64 +1,61 @@
 import React, {useState} from 'react';
-import { styles } from './styles'
+import {styles} from './styles';
 import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Entypo'
 import axios from 'axios';
-import { Keyboard,
-    KeyboardAvoidingView,
-    Text,
-    TextInput,
-    TouchableWithoutFeedback,
-    Pressable,
-    View, } from 'react-native'
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  Pressable,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 
 const Signup = ({navigation}) => {
-    const [username, setUsername] = useState({username: '', error: ''});
-    const [password, setPassword] = useState({password: '', error: ''});
-    const [firstname, setFirstname] = useState({firstname: '', error: ''});
-    const [lastname, setLastname] = useState({lastname: '', error: ''});
-     
+  const [username, setUsername] = useState({username: '', error: ''});
+  const [password, setPassword] = useState({password: '', error: ''});
+  const [firstname, setFirstname] = useState({firstname: '', error: ''});
+  const [lastname, setLastname] = useState({lastname: '', error: ''});
+  const [show, setShow] = useState(false);
 
-    console.log(firstname)
+  //register user
 
-    //register user
-
-    const registerUser = () => {
-        axios({
-          method: 'POST',
-          url: 'https://immense-garden-86776.herokuapp.com/auth/register',
-          data: {username: username.username, password: password.password,firstname:firstname.firstname,lastname:lastname.lastname},
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(function (response) {
-            console.log(response.status)
-            if (response.status===200) {
-             setUsername({error:"user successffully registered"})
-             
-            } else {
-            }
-          })
-          .catch(function (error) {
-            setUsername({error: 'Fill correct username and password'});
-          });
-      };
-
-
-      const saveUser=async()=>{
-        await registerUser()
-        setUsername({username: ''});
-        setPassword({password: ''});
-        setFirstname({firstname: ''});
-        setLastname({lastname: ''});
+  const registerUser = () => {
+    setShow(true);
+    axios({
+      method: 'POST',
+      url: 'https://immense-garden-86776.herokuapp.com/auth/register',
+      data: {
+        username: username.username,
+        password: password.password,
+        firstname: firstname.firstname,
+        lastname: lastname.lastname,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(function (response) {
+        setShow(false);
         return navigation.navigate('Login');
-      }
+      })
+      .catch(function (error) {
+        setUsername({error: 'Fill correct username and password'});
+      });
+  };
 
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
-            <Text style={styles.logoText}>Register Here</Text>
+            <Text style={styles.logoText}><Icon name='add-user' size={100}/></Text>
+
+            <ActivityIndicator animating={show} size="large" color="gray" />
+
             <Text style={{padding: 10, fontSize: 20, color: 'yellow'}}>
               {username.error}
             </Text>
@@ -77,14 +74,14 @@ const Signup = ({navigation}) => {
               secureTextEntry={true}
               onChangeText={text => setPassword({password: text})}
             />
-             <TextInput
+            <TextInput
               value={firstname.firstname}
               placeholder="Firstname"
               placeholderColor="#c4c3cb"
               style={styles.loginFormTextInput}
               onChangeText={text => setFirstname({firstname: text})}
             />
-             <TextInput
+            <TextInput
               value={lastname.lastname}
               placeholder="Lastname"
               placeholderColor="#c4c3cb"
@@ -93,15 +90,14 @@ const Signup = ({navigation}) => {
             />
             <Button
               buttonStyle={styles.loginButton}
-              onPress={() => saveUser()}
+              onPress={() => registerUser()}
               title="Register"
             />
-             
           </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

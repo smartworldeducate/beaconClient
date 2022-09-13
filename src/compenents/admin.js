@@ -1,21 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import {Button, Card} from 'react-native-elements';
+import {View, Text, ScrollView, ActivityIndicator, Image} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button} from 'react-native-elements';
+import {styles} from './styles';
 import axios from 'axios';
+import Swiper from 'react-native-swiper';
 const Admin = ({navigation}) => {
   const [user, setUser] = useState([]);
-
-  
+  const [show, setShow] = useState(false);
 
   //database call here
 
   const loaduser = async () => {
+    setShow(true);
     await axios({
       method: 'GET',
       url: 'https://immense-garden-86776.herokuapp.com/user',
     })
       .then(function (response) {
-
+        setShow(false);
 
         setUser(response.data);
       })
@@ -28,36 +31,30 @@ const Admin = ({navigation}) => {
     loaduser();
   }, []);
 
-  const checkAction=()=>{
+  const checkAction = () => {
     return navigation.navigate('Scanner');
-  }
-
+  };
 
   //delete user
 
-  const deleteUser=async(id)=>{
+  const deleteUser = async id => {
     await axios({
       method: 'DELETE',
       url: `https://immense-garden-86776.herokuapp.com/user/${id}`,
-      headers:{"Content-Type":"applications/json"}
+      headers: {'Content-Type': 'applications/json'},
     })
       .then(function (response) {
-        loaduser()
+        loaduser();
       })
       .catch(function (error) {
         console.log(error);
       });
-  }
-
-
+  };
 
   const list = () => {
-    return user.map(element => {
-      
+    return user.map((element, index) => {
       return (
-        <View
-          key={element.id}
-          style={{width: 360, height: 100, marginRight: 20, marginLeft: 15}}>
+        <View key={index} style={{flex: 1}}>
           <View
             style={{
               backgroundColor: '#d2dae2',
@@ -65,7 +62,7 @@ const Admin = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               height: 80,
-              
+              margin: 10,
             }}>
             <View style={{paddingLeft: 10, paddingTop: 5}}>
               <Text style={{fontSize: 20, color: '#353b48'}}>
@@ -76,9 +73,18 @@ const Admin = ({navigation}) => {
               </Text>
             </View>
 
-            <View style={{paddingTop: 20, paddingRight: 8 ,flexDirection:'row'}}>
-            <Button title="delete" onPress={()=>deleteUser(element._id)} buttonStyle={{marginRight:10,backgroundColor:'#f78fb3'}}/>
-              <Button title="action" onPress={()=>checkAction()} buttonStyle={{backgroundColor:'#78e08f'}}/>
+            <View
+              style={{paddingTop: 20, paddingRight: 8, flexDirection: 'row'}}>
+              <Button
+                title="delete"
+                onPress={() => deleteUser(element._id)}
+                buttonStyle={{marginRight: 10, backgroundColor: '#f78fb3'}}
+              />
+              <Button
+                title="action"
+                onPress={() => checkAction()}
+                buttonStyle={{backgroundColor: '#78e08f'}}
+              />
             </View>
           </View>
         </View>
@@ -86,22 +92,51 @@ const Admin = ({navigation}) => {
     });
   };
 
- 
- 
   return (
-    <View style={{width: 393, height: 750, backgroundColor: '#ff6b81'}}>
+    <View style={{flex: 1, backgroundColor: '#ff6b81'}}>
+      <View style={styles.sliderContainer}>
+        <Swiper autoplay height={200} activeDotColor="#FF6347">
+          <View style={styles.slide}>
+            <Image
+              source={{
+                uri: 'https://www.beaconhouse.net/wp-content/uploads/2017/04/welcome-image.png',
+              }}
+              resizeMode="cover"
+              style={styles.sliderImage}
+            />
+          </View>
+          <View style={styles.slide}>
+            <Image
+              source={{
+                uri: 'https://scontent.flhe9-1.fna.fbcdn.net/v/t31.18172-8/22041955_1395690747151038_957403483505391003_o.jpg?_nc_cat=100&ccb=1-7&_nc_sid=973b4a&_nc_ohc=Ev1Of_PmmQ4AX9etqa5&_nc_ht=scontent.flhe9-1.fna&oh=00_AT8LWGUvi4cdWPsS0J4F1hJ6vMlGRU0eF3IF9Fcny8laqQ&oe=63356FDF',
+              }}
+              resizeMode="cover"
+              style={styles.sliderImage}
+            />
+          </View>
+          <View style={styles.slide}>
+            <Image
+              source={{
+                uri: 'https://i.dawn.com/primary/2017/08/59981f4c5e511.jpg',
+              }}
+              resizeMode="cover"
+              style={styles.sliderImage}
+            />
+          </View>
+        </Swiper>
+      </View>
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator animating={show} size="large" color="gray" />
+      </View>
       <Text
         style={{
-          textAlign: 'center',
-          fontSize: 30,
-          fontWeight:'bold',
-          color: '#353b48',
-          marginTop: 30,
-          paddingBottom:20
+          alignSelf: 'center',
+          fontSize: 18,
+          fontWeight: 'bold',
+          color: 'white',
         }}>
-        Beams Users Dashboard
+        Recently Viewed
       </Text>
-
       <ScrollView>{list()}</ScrollView>
     </View>
   );

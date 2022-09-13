@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {styles} from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome'
 import {
   TouchableOpacity,
   Keyboard,
@@ -9,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Pressable,
   View,
+  ActivityIndicator,
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import axios from 'axios';
@@ -16,9 +18,10 @@ import axios from 'axios';
 const Login = ({navigation}) => {
   const [username, setUsername] = useState({username: '', error: ''});
   const [password, setPassword] = useState({password: '', error: ''});
-
+  const [show, setShow] = useState(false);
 
   const loginUser = () => {
+    setShow(true);
     axios({
       method: 'POST',
       url: 'https://immense-garden-86776.herokuapp.com/auth/login',
@@ -28,11 +31,17 @@ const Login = ({navigation}) => {
       },
     })
       .then(function (response) {
+        setShow(false);
         if (response) {
           setUsername({error: 'user success fully login', username: ''});
           setPassword({password: ''});
-          return navigation.navigate('Admin');
+          return navigation.navigate('Card');
         } else {
+          return (
+            <View style={[styles.container, styles.horizontal]}>
+              <ActivityIndicator />
+            </View>
+          );
         }
       })
       .catch(function (error) {
@@ -40,22 +49,18 @@ const Login = ({navigation}) => {
       });
   };
 
-  
-
-  const onLoginPress = async () => {
-    loginUser();
-  };
-
-  const handleRegister=()=>{
+  const handleRegister = () => {
     return navigation.navigate('Signup');
-
-  }
+  };
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
-            <Text style={styles.logoText}>BEAMS</Text>
+            <Text style={styles.logoText}><Icon name='user-o' size={100}/></Text>
+
+            <ActivityIndicator animating={show} size="large" color="gray" />
+
             <Text style={{padding: 10, fontSize: 20, color: 'yellow'}}>
               {username.error}
             </Text>
@@ -76,14 +81,14 @@ const Login = ({navigation}) => {
             />
             <Button
               buttonStyle={styles.loginButton}
-              onPress={() => onLoginPress()}
+              onPress={() => loginUser()}
               title="Login"
             />
             <TouchableOpacity
-                onPress={()=>handleRegister()}
-                style={styles.button}>
-                <Text style={styles.text}>Register</Text>
-              </TouchableOpacity>
+              onPress={() => handleRegister()}
+              style={styles.button}>
+              <Text style={styles.text}>Register</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
